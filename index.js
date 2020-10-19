@@ -9,9 +9,9 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 const reservationRouter = require(`./controllers/reservation.js`)
 
-//require('dotenv').config()
+require('dotenv').config()
 
-const mongoUrl = process.env.MONGO || 'mongodb+srv://kiitus:m2f69JomE4CdMcSP@cluster0-ppj5g.mongodb.net/Reservation?retryWrites=true&w=majority'
+const mongoUrl = process.env.MONGO 
 
 mongoose.connect(mongoUrl, {
     useCreateIndex: true,
