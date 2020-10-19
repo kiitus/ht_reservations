@@ -1,0 +1,11 @@
+POST http://localhost:3000/api/reservation/
+Content-Type: application/json
+
+{
+"room":"A10",
+"year":2020,
+"month":10,
+"day":"19",
+"hour":"0",
+"duration":8
+}

@@ -1,0 +1,7 @@
+PATCH  http://localhost:3000/api/reservation/5f8d947976cca319e4d54ffc
+Content-Type: application/json
+
+{
+    "room":"A10",
+"duration":"3"
+}

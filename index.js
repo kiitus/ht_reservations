@@ -4,12 +4,14 @@ const app = express()
 //const cors = require('cors')
 const path = require('path');
 const mongoose = require('mongoose')
+var bodyParser = require('body-parser')
 
+app.use(bodyParser.json())
 const reservationRouter = require(`./controllers/reservation.js`)
 
 //require('dotenv').config()
 
-const mongoUrl = process.env.MONGO || 'mongodb+srv://kiitus:m2f69JomE4CdMcSP@cluster0-ppj5g.mongodb.net/Movies?retryWrites=true&w=majority'
+const mongoUrl = process.env.MONGO || 'mongodb+srv://kiitus:m2f69JomE4CdMcSP@cluster0-ppj5g.mongodb.net/Reservation?retryWrites=true&w=majority'
 
 mongoose.connect(mongoUrl, {
     useCreateIndex: true,
@@ -31,7 +33,7 @@ app.use('/api/reservation', reservationRouter)
 
 app.get('*', (req,res) =>{
 
-  res.sendFile(path.join(__dirname+'/build/index.html'));
+  res.send("Page not found")
  
 });
 
