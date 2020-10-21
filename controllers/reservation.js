@@ -2,9 +2,14 @@ const reservationRouter = require('express').Router()
 const time = require('../models/time')
 //require('dotenv').config()
 
-let convertAndGather = (findResult) =>{
+//Muuttaa ohjelman käyttämät millisekunnit tavalliseksi ajaksi
+let convertAndGather = (resultToConvert) =>{
+    
     const converted = []
-    findResult.forEach((time) => {
+   
+    if(Array.isArray(resultToConvert))
+    {
+    resultToConvert.forEach((time) => {
         let oneReservation = {
             room: time.Room,
             startTime: new Date(time.Starttime).toLocaleString(),
@@ -15,10 +20,22 @@ let convertAndGather = (findResult) =>{
 
         converted.push(oneReservation)
     })
+}else
+{
+    let oneReservation = {
+        room: resultToConvert.Room,
+        startTime: new Date(resultToConvert.Starttime).toLocaleString(),
+        endTime: new Date(resultToConvert.Endtime).toLocaleString(),
+        user: resultToConvert.User,
+        id: resultToConvert._id
+    }
+    converted.push(oneReservation)
+}
     return converted
 }
 
-
+//Tarkistaa onko luokka varattu, skipillä toteutetaan
+//ettei muokattava vaikuta omaan tarkastukseensa
 let isReserved = (startMil,endMil,times,skip = 0)=>
 {
     let reserved = false
@@ -53,19 +70,18 @@ reservationRouter.delete("/:id",(req,res)=>
 {
 
     const id = req.params.id
-    console.log(id)
+
     time.findByIdAndDelete(id).then((deleted) =>
     {
-        res.end("Reservation deleted")
+        res.send("Reservation deleted")
     }).catch((error)=>{
-        res.end("Error in id")
+        res.status(400).send("Error in id")
     })
 })
 
 reservationRouter.get("/",(req,res)=>
 {
-    let result = []
- 
+    //Tähän kerätään hakuehdot
     let query = {};
     if(req.query.room !== undefined)
     {
@@ -86,15 +102,15 @@ reservationRouter.get("/",(req,res)=>
     let s = new Date(year, month - 1, day)
     let e = new Date(year, month - 1, day+1)
 
-        let alku = "$gte"
-        let loppu = "$lt"
+        let beginning = "$gte"
+        let end = "$lt"
         let Starttime2 = {}
-        Starttime2[alku] = s
-        Starttime2[loppu] = e
+        Starttime2[beginning] = s
+        Starttime2[end] = e
         let title2 = "Starttime";
-        /*
-        let valueAlku = 1602806400000
-        let valueLoppu = 1602892800000*/
+        
+        //Starttime: { $gte: s , $lt: e }
+   
         query[title2] = Starttime2;
 
     }
@@ -107,24 +123,17 @@ reservationRouter.get("/",(req,res)=>
         query[titleUser] = valueUser;
     }
     console.log(query)
-    //Starttime: { $gte: s , $lt: e }
-    //1602806400000
-    //1602892800000
+  
+
+
+    let result = []
+ 
     time.find(query).sort({ Room: 1, Starttime: 1 }).then((finded) => {
         result =convertAndGather(finded)
         return res.send(result)
         })
 })
-/*
-reservationRouter.get('/', (req, res) => {
 
-    let result = []
-    time.find({}).sort({ Room: 1, Starttime: 1 }).then((finded) => {
-        result =convertAndGather(finded)
-        return res.send(result)
-        })
-})
-*/
 
 reservationRouter.get('/:room', (req, res) =>
 {
@@ -180,27 +189,20 @@ reservationRouter.post("/", (req, res) => {
     const duration = parseInt(req.body.duration)
     const user =req.body.user
 
-//hour+3
-  /*  let s = new Date(year, month - 1, day, hour)
-    let e = new Date(year, month - 1, day, (hour) + duration)
 
-    console.log(s)
-    console.log(e)
 
-*/
     let startMil = new Date(year, month - 1, day, hour).getTime()
     let endMil = new Date(year, month - 1, day, hour + duration).getTime()
 
     time.find({ Room: room }).then((finded_room) => {
 
         if (isNaN(startMil) || isNaN(endMil)) {
-            console.log("Nan")
-            return res.end("Daytime error")
+            return res.status(400).send("Error in reservation time")
         }
 
 
         if (finded_room.length === 0) {
-            console.log("Täällä")
+
             const time_var = new time({
                 Room: room,
                 Starttime: startMil,
@@ -208,7 +210,11 @@ reservationRouter.post("/", (req, res) => {
                 User:user
             })
             time_var.save().then((saved_time) => {
-                return res.send(saved_time)
+                let converted = convertAndGather(saved_time)
+                return res.send(converted)
+            }).catch((error)=>
+            {
+                res.status(400).send(error.message)
             })
 
         }
@@ -223,7 +229,11 @@ reservationRouter.post("/", (req, res) => {
                     User: user
                 })
                 time_var.save().then((saved_time) => {
-                    return res.send(saved_time)
+                    let converted = convertAndGather(saved_time)
+                    return res.send(converted)
+                }).catch((error)=>
+                {
+                    res.status(400).send(error.message)
                 })
             }
             else{
@@ -252,12 +262,11 @@ reservationRouter.put("/:id",(req,res)=>
 
     if(isNaN(data.Starttime) || isNaN(data.Endtime) || data.Room === undefined)
     {
-      return  res.end("Error in reservation time")
+      return  res.status(400).send("eError in reservation time")
     }
     let reserved = false
     time.find({Room:data.Room}).then((founded)=>
      {
-         console.log("PÖö")
         
         reserved = isReserved(data.Starttime,data.Endtime,founded,id)
         
@@ -270,15 +279,16 @@ reservationRouter.put("/:id",(req,res)=>
                 {
                     time.findById(id).then((founded)=>
                     {
-                        res.send(founded)
+                        let converted = convertAndGather(founded)
+                        return res.send(converted)
                     })
                 }
                 else
                 {
-                    res.end("ID error")
+                    res.status(400).send("ID error")
                 }}).catch((error)=>
                 {
-                    res.send("Error in id")
+                    res.status(400).send("Error in id")
                 })
             
         }
@@ -298,13 +308,15 @@ reservationRouter.patch("/:id",(req,res)=>
 
     time.findById(id).then((timeToUpdate)=>
     {
+        //Ladataan muokattavan varauksen alkuperäiset arvot
         let orginalStartTime = new Date(timeToUpdate.Starttime)
-        console.log(orginalStartTime)
+        
         let year = orginalStartTime.getFullYear()
         let month = orginalStartTime.getMonth() +1
         let day = orginalStartTime.getDate() 
         let hour = orginalStartTime.getHours()
 
+        //Muokattavat arvot
         if(body.year !== undefined)
         year = body.year
 
@@ -317,23 +329,21 @@ reservationRouter.patch("/:id",(req,res)=>
         if(body.hour !== undefined)
         hour = body.hour
 
-        console.log("year "+year)
-        console.log("month "+month)
-        console.log("day "+day)
-        console.log("hour "+hour)
-        console.log(new Date(parseInt(year),parseInt(month) - 1, parseInt(day), parseInt(hour)))
+        
       let startMil = new Date(parseInt(year),parseInt(month) - 1, parseInt(day), parseInt(hour)).getTime()
             
-     
+     //Varauksen lopetus aika
      let endMil
+     //Jos muokataan
         if(body.duration !== undefined)
         endMil = new Date(parseInt(year),parseInt(month) - 1,parseInt( day), (parseInt(hour)) + parseInt(body.duration)).getTime()
+    //Jos ei muokata 
         else
         endMil = startMil + (timeToUpdate.Endtime - timeToUpdate.Starttime)
 
        
         if( isNaN(startMil) || isNaN(endMil) )
-        return  res.end("Error in reservation time")
+        return  res.status(400).send("Error in reservation time")
 
 
         data = {
@@ -348,30 +358,33 @@ reservationRouter.patch("/:id",(req,res)=>
         if(body.user !== undefined)
         data.User = body.user
         else
-        data.User = timeToUpdate.user
+        data.User = timeToUpdate.User
         
         
     let reserved = false
     time.find({Room:data.Room}).then((founded)=>
      {
-        console.log("jeejee")
         reserved = isReserved(data.Starttime,data.Endtime,founded,id)
         
         if(!reserved)
         {
             time.findByIdAndUpdate(id, data, { new: true }).then((modified)=>{
-            res.send(modified)
+                let converted = convertAndGather(modified)
+                return res.send(converted)
             }).catch((error)=>
             {
-                res.send("Error in id")
+                res.status(400).send("Not reservation in given ID")
             })
             
         }
         else
         {
-            return res.end("Room was reserved")
+            return res.send("Room was reserved")
         }
     })
+}).catch((error)=>
+{
+    res.status(400).send('Id was wrong ')
 })
 
     

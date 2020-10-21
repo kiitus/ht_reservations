@@ -5,7 +5,8 @@ Content-Type: application/json
 "room":"A10",
 "year":2020,
 "month":10,
-"day":"19",
-"hour":"0",
-"duration":8
+"day":"21",
+"hour":10,
+"duration":2,
+"user":"Kiitus"
 }

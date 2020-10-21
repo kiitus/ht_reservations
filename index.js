@@ -7,6 +7,16 @@ const mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
 app.use(bodyParser.json())
+
+app.use((err, req, res, next) => {
+  if (err) {
+    res.status(400).send('error parsing data')
+  } else {
+    next()
+  }
+})
+
+
 const reservationRouter = require(`./controllers/reservation.js`)
 
 require('dotenv').config()
