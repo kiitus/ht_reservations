@@ -1,7 +1,7 @@
 # ht_reservations
 
 Node.js palvelu luokkien varaamiseen. 
-Alla esimerkki JSON varauksen lisäämiseen
+Alla esimerkki JSON varauksen lisäämiseen. Duration kertoo monneksiko tunniksi varaus tehdään
 
 {
 "room":"F220",
