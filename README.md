@@ -4,7 +4,7 @@ Node.js palvelu luokkien varaamiseen.
 
 Osoite /api/reservation/
 
-Alla esimerkki JSON varauksen lisäämiseen. Duration kertoo monnksiko tunniksi varaus tehdään
+Alla esimerkki JSON varauksen lisäämiseen. Duration kertoo moneksiko tunniksi varaus tehdään
 
 {
 "room":"F220",
