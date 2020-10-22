@@ -2,11 +2,11 @@ POST http://localhost:3000/api/reservation/
 Content-Type: application/json
 
 {
-"room":"A10",
+"room":"F340",
 "year":2020,
 "month":10,
-"day":"21",
+"day":"22",
 "hour":10,
-"duration":2,
-"user":"Kiitus"
+"duration":"4",
+"user":"Aki"
 }

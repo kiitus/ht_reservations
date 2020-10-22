@@ -1,2 +1,2 @@
-Delete http://localhost:3000/api/reservation/5f8d89ba480a50322876ea14
+Delete http://localhost:3000/api/reservation/5f915bac9ab9c35f9053e757
 Content-Type: application/json
