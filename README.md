@@ -1,7 +1,8 @@
 # ht_reservations
 
 Node.js palvelu luokkien varaamiseen. 
-Osoite /api/reservation/
+
+soite /api/reservation/
 
 Alla esimerkki JSON varauksen lisäämiseen. Duration kertoo monnksiko tunniksi varaus tehdään
 
