@@ -1,8 +1,6 @@
 const http = require('http')
 const express = require('express')
 const app = express()
-//const cors = require('cors')
-const path = require('path');
 const mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
@@ -30,11 +28,8 @@ mongoose.connect(mongoUrl, {
     useFindAndModify:false
     })
 
-//app.use(cors())
+
 app.use(express.json())
-app.use(express.static('build'))
-
-
 
 
 app.use('/api/reservation', reservationRouter)
