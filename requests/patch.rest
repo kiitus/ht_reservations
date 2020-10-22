@@ -1,11 +1,6 @@
-PATCH  http://localhost:3000/api/reservation/5f8d7a38ba85470de807f082
+PATCH  http://localhost:3000/api/reservation/5f915c149ab9c35f9053e759
 Content-Type: application/json
 
 {
-"room":"A15",
-"year":"2020",
-"month":"1",
-"day":"1",
-"hour":8,
-"duration":8
+"room":"testi"
 }
