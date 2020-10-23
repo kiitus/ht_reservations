@@ -2,7 +2,8 @@
 
 Node.js palvelu luokkien varaamiseen. 
 
-Osoite /reservation
+Palvelu pyörii osoitteessa  https://teemun.herokuapp.com/reservation  
+
 
 Alla esimerkki JSON varauksen lisäämiseen. Duration kertoo moneksiko tunniksi varaus tehdään
 
