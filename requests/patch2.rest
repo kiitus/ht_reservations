@@ -1,4 +1,4 @@
-PATCH  http://localhost:3000/api/reservation/5f914b3a22ea7c324c89c8cf
+PATCH  http://localhost:3000/reservation/5f914b3a22ea7c324c89c8cf
 Content-Type: application/json
 
 {

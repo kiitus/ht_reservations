@@ -2,7 +2,7 @@
 
 Node.js palvelu luokkien varaamiseen. 
 
-Osoite /api/reservation/
+Osoite /reservation
 
 Alla esimerkki JSON varauksen lisäämiseen. Duration kertoo moneksiko tunniksi varaus tehdään
 

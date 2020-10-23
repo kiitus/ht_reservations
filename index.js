@@ -32,7 +32,7 @@ mongoose.connect(mongoUrl, {
 app.use(express.json())
 
 
-app.use('/api/reservation', reservationRouter)
+app.use('/reservation', reservationRouter)
 
 
 
