@@ -1,2 +1,3 @@
-Delete http://localhost:3000/reservation/5f91ecc0f8168946a03c17b4
+//Delete http://localhost:3000/reservation/5f91ecc0f8168946a03c17b4
+Delete https://teemun.herokuapp.com/reservation/5f92a233d477a200178dae1c
 Content-Type: application/json

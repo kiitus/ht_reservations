@@ -4,10 +4,10 @@ Content-Type: application/json
 
 {
 "room":"Heroku",
-"year":2020,
+"year":"2020",
 "month":10,
-"day":"24",
-"hour":18,
-"duration":2,
+"day":"20",
+"hour":8,
+"duration":8,
 "user":"Ope"
 }
