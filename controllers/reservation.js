@@ -81,8 +81,9 @@ reservationRouter.delete("/:id", (req, res) => {
     })
 })
 
-reservationRouter.get("/", (req, res) => {
+reservationRouter.get("", (req, res) => {
     
+
     //Tähän kerätään hakuehdot
     let query = {};
 
