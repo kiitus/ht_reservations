@@ -3,7 +3,10 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 var bodyParser = require('body-parser')
+const cors = require('cors')
 
+
+app.use(cors())
 app.use(bodyParser.json())
 
 app.use((err, req, res, next) => {
