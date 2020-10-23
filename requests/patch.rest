@@ -1,6 +1,6 @@
-PATCH  http://localhost:3000/reservation/5f915c149ab9c35f9053e759
+PATCH  https://teemun.herokuapp.com/reservation/5f931933e22fcf00177b5e1b
 Content-Type: application/json
 
 {
-"room":"testi"
+"room":"K11"
 }

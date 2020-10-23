@@ -1,4 +1,4 @@
-PATCH  http://localhost:3000/reservation/5f914b3a22ea7c324c89c8cf
+PATCH  https://teemun.herokuapp.com/reservation/5f931933e22fcf00177b5e1b
 Content-Type: application/json
 
 {

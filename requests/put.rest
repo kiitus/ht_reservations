@@ -1,11 +1,11 @@
-PUT http://localhost:3000/reservation/5f915c149ab9c35f9053e759
+PUT  https://teemun.herokuapp.com/reservation/5f931933e22fcf00177b5e1b
 Content-Type: application/json
 
 {
-"room":"A10",
+"room":"AB2",
 "year":"2020",
 "month":"10",
-"day":"23",
+"day":"24",
 "hour":8,
 "duration":"8"
 }
