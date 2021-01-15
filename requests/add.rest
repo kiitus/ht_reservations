@@ -3,7 +3,7 @@ POST https://teemun.herokuapp.com/reservation/
 Content-Type: application/json
 
 {
-"room":"AB2",
+"room":"ABC",
 "year":"2020",
 "month":10,
 "day":"23",

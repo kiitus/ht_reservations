@@ -86,10 +86,13 @@ reservationRouter.get("", (req, res) => {
 
     //Tähän kerätään hakuehdot
     let query = {};
+    
 
-    if (req.query.room !== undefined) {
+    let room = req.query.room
+
+    if (room !== undefined  && room.trim()!=="" ) {
         let title = "Room";
-        let value = req.query.room;
+        let value = req.query.room.trim();
         query[title] = value;
     }
 
@@ -97,11 +100,15 @@ reservationRouter.get("", (req, res) => {
     //Päiväys pitää olla muodossa ddmmyyyy
 
     let date = req.query.date
-    if (date !== undefined && date.length === 8) {
-        const day = parseInt(req.query.date.substring(0, 2))
-        const month = parseInt(req.query.date.substring(2, 4))
-        const year = parseInt(req.query.date.substring(4, 8))
+    let searchDay = req.query.searchDay 
+    if (date !== undefined && date.length === 10 && searchDay === "etsi" ) {
+        const day = parseInt(req.query.date.substring(8, 10))
+        const month = parseInt(req.query.date.substring(5, 7))
+        const year = parseInt(req.query.date.substring(0, 4))
 
+        console.log(day)
+        console.log(month)
+        console.log(year)
         //Näytetään yhden päivän varaukset
 
         let s = new Date(year, month - 1, day)
@@ -121,9 +128,9 @@ reservationRouter.get("", (req, res) => {
     }
 
 
-    if (req.query.user !== undefined) {
+    if (req.query.user !== undefined && req.query.user.trim() != "") {
         let titleUser = "User";
-        let valueUser = req.query.user;
+        let valueUser = req.query.user.trim();
         query[titleUser] = valueUser;
     }
     
@@ -187,10 +194,16 @@ reservationRouter.get('/:room/date/:date', (req, res) => {
 
 
 reservationRouter.post("/", (req, res) => {
+
+    var d = new Date(req.body.reservation);
+
     const room = req.body.room
-    const year = parseInt(req.body.year)
-    const month = parseInt(req.body.month)
-    const day = parseInt(req.body.day)
+  // const year = parseInt(req.body.year)
+  //  const month = parseInt(req.body.month)
+  //  const day = parseInt(req.body.day)
+    const year = d.getFullYear()
+    const month = d.getMonth() +1
+     const day =d.getDate()
     const hour = parseInt(req.body.hour)
     const duration = parseInt(req.body.duration)
     const user = req.body.user
@@ -199,6 +212,7 @@ reservationRouter.post("/", (req, res) => {
     //Varatut ajat millisekunteina
     let startMil = new Date(year, month - 1, day, hour).getTime()
     let endMil = new Date(year, month - 1, day, hour + duration).getTime()
+
 
 
     //Jos syötteessä virhe
@@ -223,6 +237,7 @@ reservationRouter.post("/", (req, res) => {
 
             time_var.save().then((saved_time) => {
                 let converted = convertAndGather(saved_time)
+                console.log(converted)
                 return res.send(converted)
             }).catch((error) => {
                 res.status(400).send(error.message)

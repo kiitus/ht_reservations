@@ -7,8 +7,8 @@ const cors = require('cors')
 
 
 app.use(cors())
-
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+//app.use(bodyParser.json()
 
 app.use((err, req, res, next) => {
   if (err) {
@@ -40,13 +40,13 @@ app.use(express.json())
 app.use('/reservation', reservationRouter)
 
 
-
-
+app.get("/",(req,res)=>
+{
+  res.sendFile('main.html', {root: __dirname })
+})
 
 app.get('*', (req,res) =>{
-
-  res.send("Page not found")
- 
+res.send("There is nothing here") 
 });
 
 const PORT =  process.env.PORT || 3000;

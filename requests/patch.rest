@@ -1,6 +1,6 @@
-PATCH  https://teemun.herokuapp.com/reservation/5f931933e22fcf00177b5e1b
+PATCH  https://teemun.herokuapp.com/reservation/5f9322a5e22fcf00177b5e1d
 Content-Type: application/json
 
 {
-"room":"K11"
+"duration":8
 }
